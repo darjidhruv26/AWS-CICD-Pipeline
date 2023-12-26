@@ -1,10 +1,72 @@
 # AWS DevOps CICD Pipeline
 
-![AWS Archi drawio](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/36441eb4-7221-4c7b-8754-0f24d4ac48aa)
+- `CodeCommit`: For Source Code Management
+- `CodeBuild`: For building and testing our code in a serverless fashion
+- `CodeDeploy`: To deploy our code
+- `CodePipeline`: To streamline the CI/CD pipeline
+- `System Manager`: To store Parameters
+-  `DockerHub`: To store Docker Images in Repository
+- `Identity and Access Management` (IAM) for creating Service Role
+- `S3` for artifact storing
+- `EC2` for Deployment
 
-## Create CodeCommit Repo
+Clone this Repository
+  
+```bash
+git clone https://github.com/darjidhruv26/AWS-CICD-Pipeline.git
+```
+
+# Project Architecture
+
+![AWS Archi drawio](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/b98bb6ed-e32e-49b0-b9d6-2019b33219e9)
+
+# Setting Up CodeCommit
+
+- Create a Repository
+
 ![1](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/73bc5622-844b-4df9-b6b6-66a5f7b8ad52)
 
+## Create IAM User:
+- Go to the IAM console and create a user.
+- Click on Create User -> User details -> Next.
+- Add Permission for full access to CodeCommit.
+
+![codecommit](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/d3398806-8c6c-4d8d-b5b5-7f5ca83169c1)
+
+- Click on Create for the user.
+- Click on the user and go to the security credentials section
+- Now we are going to create SSH credentials for this user.
+- Go to the terminal and run this command
+
+```bash
+ssh-keygen
+```  
+
+- Keep all the default values.
+- Copy the public key using `cat ~/.ssh/id_rsa.pub`.
+Paste it into the security credentials, SSH public key for the CodeCommit section, and copy the `SSH key id`.
+
+- Go back to the repository and copy the URL for git connection.
+- Now run
+  
+```bash
+cd ~/.ssh 
+touch config
+```
+
+- Host git-codecommit.*.amazonaws.com
+- User <paste the id of ssh key (can find after you paster your key in aws )->
+IdentityFile` ~/.ssh/id_rsa`
+- Now we can connect to this repo.
+- Run this command now
+  
+```bash
+git clone <SSH URL>
+```
+
+- Now copy all the content from my git repository to your code commit repository.
+- And do a git push.
+  
 ![3](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/b3a4f2f2-23c4-41fe-9b82-a359f41a0bc1)
 
 ![2](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/c57d77b6-9a5b-4379-9214-7a4ecb3fa19c)
