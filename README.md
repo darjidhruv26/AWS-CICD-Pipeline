@@ -1,6 +1,6 @@
 # AWS DevOps CICD Pipeline
 
-![AWS Archi](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/35afcced-72c5-4632-b64a-8a40ebf47e5c)
+![AWS Archi drawio](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/36441eb4-7221-4c7b-8754-0f24d4ac48aa)
 
 ## Create CodeCommit Repo
 ![1](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/73bc5622-844b-4df9-b6b6-66a5f7b8ad52)
