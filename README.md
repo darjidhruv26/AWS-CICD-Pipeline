@@ -71,14 +71,68 @@ git clone <SSH URL>
 
 ![2](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/c57d77b6-9a5b-4379-9214-7a4ecb3fa19c)
 
-## Create CodeBuild
+## Setting Up CodeBuild
 
+- Click on `Create build project`
+- Follow this steps
 ![cb-1](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/a553ae82-f524-4a61-b252-6de2466f9f2b)
 
 ![cb-2](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/195a11ab-302a-4175-ad47-1c587b6c2000)
 
+- CodeBuild will need a `buildspec.yml` to build a project.
+-  The `buildspec.yml` file is in the repository root folder.
+-  Also, This project will containerize so that select the `Enable this flag if you want to build Docker images or want your builds to get elevated privileges`
+
 ![cb-3](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/c24357e9-aace-41c2-b92c-d54535b53947)
 
+- In this project, we will build a Docker image and push it to the DockerHub repository.
+- So, We need DockerHub credentials like `Username` and `Password`.
+- Also, we are using a free API to consume movie/TV data in this Project. [TMDB](https://www.themoviedb.org/).
+---
+### Using `AWS System Manager` for storing secrets. 
+
+- Goto `AWS System Manager` dashboard.
+- Click on `Parameter Store` -> `Create parameter`
+- In Parameter details
+- Add `DockerHub Username`
+  
+   Name: `/myapp/docker-credentials/username`
+  
+   Type: `SecureString`
+  
+   Value: Add Your DockerHub Username
+
+- Add `DockerHub Password`
+  
+   Name: `/myapp/docker-credentials/password`
+  
+   Type: `SecureString`
+  
+   Value: Add Your DockerHub Password or secret token
+
+- Add `TMDB API Key`
+  
+   Name: `/myapp/api/key`
+  
+   Type: `SecureString`
+  
+   Value: Add Your TMDB api key
+
+- Also, Add Permission in CodeBuild Created Role for assess `Parameters from CodeBuild to System Manager`
+- For this, Create an inline policy
+```
+{
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParameters"
+            ],
+            "Resource": [
+                "arn:aws:ssm:*:{AWS Account ID 12 Digit}:parameter/*"
+            ]
+        }
+```
+![permesions](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/c8bbfb56-7365-4860-8090-36ff8a73693f)
 
 ![5 5](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/8d86d35d-6abf-41da-ae30-7a47bc09a133)
 
@@ -88,9 +142,11 @@ git clone <SSH URL>
 
 ![4 4](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/1ca675f7-8fa3-4390-bd05-307945d431ad)
 
-### DockerHub Repo
+### DockerHub Repository
 ![3 3](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/6f947019-6c52-41f8-98d7-677b260cc08a)
-
+- Just for Test
+- `Pull` this Docker Image in Local using `docker run -n netflix -p 8080:80 dhruvdarji123/netflix-react-app`
+- 
 ![6](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/14ad0dc8-5e6c-4174-8607-4753f134c47e)
 
 ## Create CodeDeploy Application
