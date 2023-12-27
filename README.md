@@ -144,16 +144,40 @@ git clone <SSH URL>
 
 ### DockerHub Repository
 ![3 3](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/6f947019-6c52-41f8-98d7-677b260cc08a)
+
 - Just for Test
 - `Pull` this Docker Image in Local using `docker run -n netflix -p 8080:80 dhruvdarji123/netflix-react-app`
-- 
+  
 ![6](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/14ad0dc8-5e6c-4174-8607-4753f134c47e)
+
+### Build Artifact store in S3 Bucket
+
+In the CodeBuild console Click on Edit button -> Artifacts -> Type:"S3" -> put Uplode Locetion.
 
 ## Create CodeDeploy Application
 
+- Create Application and Compute platform is EC2/On-premises
+Create Service role (Give permissions -
+
+ 1.`AmazonEC2FullAccess`
+  
+ 2.`AmazonEC2RoleforAWSCodeDeploy` 
+ 
+ 3. `AmazonS3FullAccess`
+    
+ 4.`AWSCodeDeployeFullAccess` 
+ 
+ 5.`AWSCodeDeployRole` 
+ 
+ 6.`AmazonEC2RoleforAWSCodeDeployLimitaccesstoS3`
+
 ![cd-1](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/82f15955-9633-441e-91ef-5550303a8b09)
 
-### Create Ec2 instance
+### Create EC2 instance
+
+Click Launch Instances
+Ubuntu t2.micro
+Connect to the server and run this command to convert it into a Root user
 
 ![ec2-1](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/d10584f0-c0c0-4222-bc33-de27e5d06b99)
 
