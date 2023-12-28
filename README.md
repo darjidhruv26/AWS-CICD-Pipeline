@@ -1,5 +1,7 @@
 # AWS DevOps CICD Pipeline
-
+---
+- This Project Deploy a video streaming application on EC2 using Docker and AWS Developers Tools.
+---
 - `CodeCommit`: For Source Code Management
 - `CodeBuild`: For building and testing our code in a serverless fashion
 - `CodeDeploy`: To deploy our code
