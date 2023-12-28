@@ -152,18 +152,19 @@ git clone <SSH URL>
 
 ### Build Artifact store in S3 Bucket
 
-In the CodeBuild console Click on Edit button -> Artifacts -> Type:"S3" -> put Uplode Locetion.
+In the CodeBuild console Click on Edit button -> Artifacts -> Type: "S3" -> put Uplode Location.
 
 ## Create CodeDeploy Application
 
 - Create Application and Compute platform is EC2/On-premises
+
 Create Service role (Give permissions -
 
  1.`AmazonEC2FullAccess`
   
  2.`AmazonEC2RoleforAWSCodeDeploy` 
  
- 3. `AmazonS3FullAccess`
+3. `AmazonS3FullAccess`
     
  4.`AWSCodeDeployeFullAccess` 
  
@@ -176,15 +177,35 @@ Create Service role (Give permissions -
 ### Create EC2 instance
 
 Click Launch Instances
-Ubuntu t2.micro
-Connect to the server and run this command to convert it into a Root user
+- `Amazon Linux` -> `t2.micro`
+- Also Create a Service Role for `EC2 to access s3 & CodeDeploy`
+- Goto IAM Dashboard -> Create Role -> Service Role -> EC2
+- Add this permission
 
+  1. `AmazonEC2FullAccess`
+
+  2. `AmazonEC2RoleforAWSCodeDeploy`
+
+  3. `AmazonS3FullAccess`
+
+  4. `AWSCodeDeployFullAccess`
+
+![EC2-Code-deploy](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/371647f1-42e5-4c16-942e-521c952a55be)
+  
+- Give Role name -> Click on Create Role
+  
 ![ec2-1](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/d10584f0-c0c0-4222-bc33-de27e5d06b99)
 
+- Give This Service Role here.
+  
 ![ec2-2](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/113fe3f3-26cf-47f8-a58e-e63ef7447a6d)
 
 ![ec2-3](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/4d99e6ab-555c-4251-a515-174c50954c35)
 
+- Add this Script to the User Data section.
+- Or Just run it manually.
+
+- For `Amazon Linux`
 ```bash
 #!/bin/bash
 sudo yum -y update
@@ -198,7 +219,8 @@ wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/instal
 sudo chmod +x ./install
 sudo ./install auto
 ```
-- For Ubuntu
+
+- For `Ubuntu`
   
 ```bash
 #!/bin/bash
@@ -215,25 +237,46 @@ sudo service codedeploy-agent status
 
 ### Create CodeDeploy Group
 
+- Create a CodeDeploy Group using the following Steps.
+  
 ![cd-2](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/e15a042b-6e9d-49d5-a759-5ddc99bc6e2d)
 
 ![cd-3](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/9911ef67-e5c0-47e3-a6dc-cd505ded21f6)
 
+- Click On `Create Deployment`
+- `Start Deployment`
+  
 ![10](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/467279df-33fe-4f4d-a25c-434881928f9b)
 
 ## Create CodePipeline
 
+- Step 1: Choose pipeline setting -> PipelineName > Service role
+
+- Step 2: Add source stage -> CodeCommit > RepoName > BranchName > Select CodePipeline periodically for changes(For automation)
+
+- Step 3: Add build stage -> BuildProvider > Region > ProjectName > Single build
+
+- Step 4: Add deploy stage -> DeployProvider > Region > AppName > Deployment group
+
+- Step 5: Review
+  
 ![30](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/496d8613-dd1d-4805-8cb3-cb1964e31747)
 
 ![31](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/ee10d299-f46b-4112-b27c-056e8fc1c516)
 
+### CodeBuild History
+
 ![8](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/8676878e-6b10-4f6a-97cd-a320b760488e)
+
+### CodeDeploy
 
 ![11](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/77c56809-aaa7-4668-9914-186f3312c69d)
 
+### CodeDeploy History
+
 ![12](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/46fb5cd4-8e46-48e5-be22-4155160cc131)
+
+### OutPut
 
 ![32](https://github.com/darjidhruv26/AWS-CICD-Pipeline/assets/90086813/469a3d2f-7bb0-4f70-beaf-da4427e0a0e4)
 
-s3://netflix-cicd-arti/netflix.zip
-```
